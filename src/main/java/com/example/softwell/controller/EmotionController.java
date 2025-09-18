@@ -19,7 +19,7 @@ public class EmotionController {
 
     //Somente USER
     @GetMapping("emotions")
-    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
     @ResponseStatus(HttpStatus.OK)
     public List<Emotion> listEmotion(){
         return service.findAll();
@@ -29,21 +29,21 @@ public class EmotionController {
 
     //Somente ADMIN
     @PostMapping("/emotions")
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
-    public Emotion save(@RequestBody Emotion emotion){
+    public Emotion save(@RequestBody String emotion){
         return service.saveEmotion(emotion);
     }
 
     @DeleteMapping("/emotions/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String id) {
         service.deleteEmotion(id);
     }
 
     @PutMapping("/emotions")
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public Emotion update(@RequestBody Emotion emotion) {
         return service.updateEmotion(emotion);

@@ -24,8 +24,9 @@ public class EmotionService {
         return emotionRepository.findAll();
     }
 
-    public Emotion saveEmotion(Emotion emotion) {
-        return emotionRepository.save(emotion);
+    public Emotion saveEmotion(String emotion) {
+        Emotion emotio = new Emotion(emotion);
+        return emotionRepository.save(emotio);
     }
 
     public void deleteEmotion(String id){
