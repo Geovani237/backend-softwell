@@ -5,6 +5,8 @@ import com.example.softwell.repository.EmotionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,11 +23,12 @@ public class EmotionService {
     @Autowired
     private EmotionRepository emotionRepository;
 
-    public List<Emotion> findAll(){
+    public List<Emotion> getAll(){
         return emotionRepository.findAll();
     }
 
     public Emotion saveEmotion(Emotion emotion) {
+        emotion.setDate(LocalDateTime.now());
         return emotionRepository.save(emotion);
     }
 

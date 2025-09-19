@@ -22,7 +22,7 @@ public class EmotionController {
     //@PreAuthorize("isAuthenticated()")
     @ResponseStatus(HttpStatus.OK)
     public List<Emotion> listEmotion(){
-        return service.findAll();
+        return service.getAll();
     }
     //----------------
 
