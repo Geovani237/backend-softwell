@@ -4,7 +4,7 @@ import com.example.softwell.model.Emotion;
 import com.example.softwell.service.EmotionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Pageable;
@@ -18,7 +18,7 @@ public class EmotionController {
     private EmotionService service;
 
     //Somente USER
-    @GetMapping("emotions")
+    @GetMapping("/emotions")
     //@PreAuthorize("isAuthenticated()")
     @ResponseStatus(HttpStatus.OK)
     public List<Emotion> listEmotion(){
@@ -31,12 +31,11 @@ public class EmotionController {
     @PostMapping("/emotions")
     //@PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
-    public Emotion save(@RequestBody String emotion){
+    public Emotion save(@RequestBody Emotion emotion){
         return service.saveEmotion(emotion);
     }
 
     @DeleteMapping("/emotions/{id}")
-    //@PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String id) {
         service.deleteEmotion(id);
