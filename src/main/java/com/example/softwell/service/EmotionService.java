@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmotionService {
@@ -33,6 +34,13 @@ public class EmotionService {
     }
 
     public Emotion updateEmotion(Emotion emotion){
-        return emotionRepository.save(emotion);
+
+        Optional<Emotion> emotionOptional = emotionRepository.findById(emotion.getId());
+
+        if (emotionOptional.isPresent()){
+            return emotionRepository.save(emotion);
+        } else {
+            throw new RuntimeException("Usuário não encontrado!");
+        }
     }
 }
