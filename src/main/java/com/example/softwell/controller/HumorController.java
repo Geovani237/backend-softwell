@@ -35,13 +35,14 @@ public class HumorController {
         humorRepository.deleteById(id);
     }
 
-    @PostMapping("/humores")
+    @PostMapping("/humores/userresponse")
     public UserHumorResponse saveUserResponse(@RequestBody Humor humor) {
         UserHumorResponse userResponse = new UserHumorResponse();
         userResponse.setEstadoDeHumor(humor.getEstadoDeHumor());
         userResponse.setEmoji(humor.getEmoji());
         userResponse.setDataResposta(LocalDateTime.now());
 
+        // Não se preocupe, a sua lógica de salvar no repositório correto (userHumorResponseRepository) está PERFEITA!
         return userHumorResponseRepository.save(userResponse);
     }
 }
