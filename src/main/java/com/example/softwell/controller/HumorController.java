@@ -1,6 +1,7 @@
 package com.example.softwell.controller;
 
 import com.example.softwell.model.Humor;
+import com.example.softwell.model.UserHumorResponse;
 import com.example.softwell.repository.HumorRepository;
 import com.example.softwell.repository.UserHumorResponseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/humores")
+@RequestMapping("/api")
 public class HumorController {
 
     @Autowired
@@ -19,15 +20,28 @@ public class HumorController {
     @Autowired
     private UserHumorResponseRepository userHumorResponseRepository;
 
-    @GetMapping
+    @GetMapping("/humores")
     public List<Humor> getAllHumor() {
         return humorRepository.findAll();
     }
 
-    @PostMapping
-    public Humor saveUserResponse(@RequestBody Humor humor) {
-        humor.setDataResposta(LocalDateTime.now());
-        // Salva a resposta do usuário na nova collection
-        return userHumorResponseRepository.save(humor);
+    @PostMapping("/humores/add")
+    public Humor addHumor(@RequestBody Humor newHumor) {
+        return humorRepository.save(newHumor);
+    }
+
+    @DeleteMapping("/humores/{id}")
+    public void deleteHumor(@PathVariable String id) {
+        humorRepository.deleteById(id);
+    }
+
+    @PostMapping("/humores")
+    public UserHumorResponse saveUserResponse(@RequestBody Humor humor) {
+        UserHumorResponse userResponse = new UserHumorResponse();
+        userResponse.setEstadoDeHumor(humor.getEstadoDeHumor());
+        userResponse.setEmoji(humor.getEmoji());
+        userResponse.setDataResposta(LocalDateTime.now());
+
+        return userHumorResponseRepository.save(userResponse);
     }
 }
