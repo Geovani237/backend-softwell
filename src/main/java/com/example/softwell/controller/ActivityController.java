@@ -1,7 +1,7 @@
 package com.example.softwell.controller;
 
 import com.example.softwell.model.Activity;
-import com.example.softwell.service.ActiviryService;
+import com.example.softwell.service.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -10,32 +10,32 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/act")
-public class ActiviryController {
+public class ActivityController {
     @Autowired
-    private ActiviryService service;
+    private ActivityService service;
 
-    @GetMapping("/activiry")
+    @GetMapping("/activity")
     @ResponseStatus(HttpStatus.OK)
-    public List<Activity> listActiviry() {
-        return service.getAllActiviry();
+    public List<Activity> listActivity() {
+        return service.getAllActivity();
     }
 
-    @PostMapping("/activiry")
+    @PostMapping("/activity")
     @ResponseStatus(HttpStatus.CREATED)
     public Activity save(@RequestBody Activity activity){
-        return service.saveActiviry(activity);
+        return service.saveActivity(activity);
     }
 
-    @DeleteMapping("/activiry/{id}")
+    @DeleteMapping("/activity/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String id){
-        service.deleteActiviry(id);
+        service.deleteActivity(id);
     }
 
-    @PutMapping("/activiry")
+    @PutMapping("/activity")
     @ResponseStatus(HttpStatus.OK )
     public Activity update(@RequestBody Activity activity) {
-        return service.updateActiviry(activity);
+        return service.updateActivity(activity);
     }
 
 

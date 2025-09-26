@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 //import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Data
-@Document(collection = "activiry")
+@Document(collection = "activity")
 public class Activity {
     @Id // ou Colocar @MongoId
     private String id;
