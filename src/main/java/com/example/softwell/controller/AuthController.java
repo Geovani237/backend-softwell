@@ -11,10 +11,7 @@ import org.springframework.security.core.Authentication;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -50,6 +47,7 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("token", token));
     }
 
+    @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User newUser){
         if(userRepository.findByUsername(newUser.getUsername()).isPresent()){
             return ResponseEntity.badRequest().body("Username ja existe");
@@ -57,6 +55,11 @@ public class AuthController {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         userRepository.save(newUser);
         return ResponseEntity.ok("Usuario registrado com sucesso");
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<?> getAll(){
+        return ResponseEntity.ok(userRepository.findAll());
     }
 
 }

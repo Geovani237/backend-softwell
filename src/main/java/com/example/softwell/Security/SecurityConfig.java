@@ -32,7 +32,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Desabilita CSRF para API REST
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // Permite acesso público a endpoints de autenticação
+                        .requestMatchers("/softwell/auth/**").permitAll() // Permite acesso público a endpoints de autenticação
                         .anyRequest().authenticated() // Exige autenticação para todas as outras requisições
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Não usa sessão, é stateless
