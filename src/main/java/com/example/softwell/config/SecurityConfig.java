@@ -15,8 +15,14 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Sintaxe moderna para desabilitar o CSRF
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/humores/**").permitAll() // Permite todas as requisições para /api/humores e sub-rotas
-                        .anyRequest().authenticated() // As outras rotas (se existirem) requerem autenticação
+                        // Permite todas as requisições para /api/humores e sub-rotas
+                        .requestMatchers("/api/humores/**").permitAll()
+
+                        // **NOVO:** Permite acesso a todas as rotas do Controller de Atividades (ex: /act/report, /act/activity)
+                        .requestMatchers("/act/**").permitAll()
+
+                        // As outras rotas (se existirem) requerem autenticação
+                        .anyRequest().authenticated()
                 );
         return http.build();
     }
