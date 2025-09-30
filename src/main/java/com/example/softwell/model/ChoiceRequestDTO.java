@@ -5,5 +5,17 @@ import lombok.Data;
 @Data
 public class ChoiceRequestDTO {
     private String userId;
-    private String selectedOption;
+    // Mude de selectedOption (Nome) para activityId (ID)
+    private String activityId;
 }
+
+
+//package com.example.softwell.model;
+//
+//import lombok.Data;
+//
+//@Data
+//public class ChoiceRequestDTO {
+//    private String userId;
+//    private String selectedOption;
+//}

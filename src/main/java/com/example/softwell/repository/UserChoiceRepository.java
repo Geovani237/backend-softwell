@@ -7,5 +7,9 @@ import java.util.Optional;
 
 public interface UserChoiceRepository extends MongoRepository<UserChoice, String> {
 
+    // Método essencial para a contagem de votos no relatório
+    long countByActivityId(String activityId);
+
+    // Mantendo o método de humor/usuário se for necessário
     Optional<UserChoice> findTopByUserIdOrderBySelectedDataDesc(String userId);
 }

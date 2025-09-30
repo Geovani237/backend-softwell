@@ -18,7 +18,7 @@ public class UserChoiceService {
     private UserChoiceRepository userChoiceRepository;
 
 
-    public UserChoice saveChoice(String userId, String option) {
+    public UserChoice saveChoice(String userId, String activityId) {
         Optional<UserChoice> lastChoiceOption = userChoiceRepository.findTopByUserIdOrderBySelectedDataDesc(userId);
 
         if (lastChoiceOption.isPresent()){
@@ -36,8 +36,14 @@ public class UserChoiceService {
 
         UserChoice newChoice = new UserChoice();
         newChoice.setUserId(userId);
-        newChoice.setSelectedOption(option);
+        // Use activityId
+        newChoice.setActivityId(activityId);
         newChoice.setSelectedData(LocalDateTime.now());
+
+//        UserChoice newChoice = new UserChoice();
+//        newChoice.setUserId(userId);
+//        newChoice.setSelectedOption(option);
+//        newChoice.setSelectedData(LocalDateTime.now());
 
         return userChoiceRepository.save(newChoice);
     }

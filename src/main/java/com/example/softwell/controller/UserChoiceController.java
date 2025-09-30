@@ -20,11 +20,22 @@ public class UserChoiceController {
     public ResponseEntity<UserChoice> submitChoice(@RequestBody ChoiceRequestDTO choiceRequestDTO){
         UserChoice newChoice = userChoiceService.saveChoice(
                 choiceRequestDTO.getUserId(),
-                choiceRequestDTO.getSelectedOption()
+                // Use activityId em vez de selectedOption
+                choiceRequestDTO.getActivityId()
         );
 
         return new ResponseEntity<>(newChoice, HttpStatus.CREATED);
     }
+
+//    @PostMapping
+//    public ResponseEntity<UserChoice> submitChoice(@RequestBody ChoiceRequestDTO choiceRequestDTO){
+//        UserChoice newChoice = userChoiceService.saveChoice(
+//                choiceRequestDTO.getUserId(),
+//                choiceRequestDTO.getSelectedOption()
+//        );
+//
+//        return new ResponseEntity<>(newChoice, HttpStatus.CREATED);
+//    }
 
     @GetMapping("/status/{userId}")
     public ResponseEntity<ChoiceStatusResponseDTO> getStatus(@PathVariable String userId){
