@@ -62,4 +62,11 @@ public class AuthController {
         return ResponseEntity.ok(userRepository.findAll());
     }
 
+    @DeleteMapping("/delete")
+    public void delete(@RequestBody Map<String, String> body) {
+        String id = body.get("id");
+        userRepository.deleteById(id);
+    }
+
+
 }
