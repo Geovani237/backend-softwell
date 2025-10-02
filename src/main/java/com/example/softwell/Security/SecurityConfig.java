@@ -33,6 +33,12 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Desabilita CSRF para API REST
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/softwell/auth/**").permitAll() // Permite acesso público a endpoints de autenticação
+                        .requestMatchers("/api/humores/**").permitAll()
+
+                        // **NOVO:** Permite acesso a todas as rotas do Controller de Atividades (ex: /act/report, /act/activity)
+                        .requestMatchers("/act/**").permitAll()
+
+                        .requestMatchers("/api/psychosocial/**").permitAll()
                         .anyRequest().authenticated() // Exige autenticação para todas as outras requisições
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Não usa sessão, é stateless
