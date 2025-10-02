@@ -1,13 +1,10 @@
 package com.example.softwell.controller;
 
-import com.example.softwell.model.Activity;
-import com.example.softwell.model.ActivityCreateDTO; // NOVO: DTO de entrada para criação
-import com.example.softwell.model.ActivityVoteDTO;    // NOVO: DTO de entrada para voto
-import com.example.softwell.model.ActivityVoteReportDTO;
-import com.example.softwell.model.UserChoice;        // NOVO: Retorna o registro de voto
+import com.example.softwell.model.*;
 import com.example.softwell.service.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -63,5 +60,28 @@ public class ActivityController {
     @ResponseStatus(HttpStatus.OK)
     public List<ActivityVoteReportDTO> getVoteReport() {
         return service.generateVoteReport();
+    }
+
+
+    @PostMapping("/choice")
+    public ResponseEntity<?> submitChoice(@RequestBody ChoiceRequestDTO choiceRequestDTO){
+        try {
+            UserChoice newChoice = service.saveChoice(
+                    choiceRequestDTO.getUserId(),
+                    choiceRequestDTO.getActivityId()
+            );
+            return new ResponseEntity<>(newChoice, HttpStatus.CREATED);
+        } catch (Exception ex) {
+            // Retorna 400 Bad Request com a mensagem de erro
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+
+
+
+    @GetMapping("/status/{userId}")
+    public ResponseEntity<ChoiceStatusResponseDTO> getStatus(@PathVariable String userId){
+        ChoiceStatusResponseDTO status = service.getChoiceStatus(userId);
+        return ResponseEntity.ok(status);
     }
 }
