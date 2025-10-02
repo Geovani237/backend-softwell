@@ -1,11 +1,13 @@
-package com.example.softwell.DetailsService;
+package com.example.softwell.service;
 
 import com.example.softwell.model.User;
 import com.example.softwell.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
     public CustomUserDetailsService(UserRepository userRepository) {
