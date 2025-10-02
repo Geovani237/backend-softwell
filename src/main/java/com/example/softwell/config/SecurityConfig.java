@@ -21,6 +21,8 @@ public class SecurityConfig {
                         // **NOVO:** Permite acesso a todas as rotas do Controller de Atividades (ex: /act/report, /act/activity)
                         .requestMatchers("/act/**").permitAll()
 
+                        .requestMatchers("/api/psychosocial/**").permitAll()
+
                         // As outras rotas (se existirem) requerem autenticação
                         .anyRequest().authenticated()
                 );
