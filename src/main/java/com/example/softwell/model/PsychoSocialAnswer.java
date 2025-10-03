@@ -26,5 +26,3 @@ public class PsychoSocialAnswer {
     private LeadershipRelation leadershipRelation;
 }
 
-// NOTA: Certifique-se de que estas classes de submodelo (Workload, etc.) estão definidas
-// em algum lugar do seu projeto backend para corresponder ao que o frontend envia.

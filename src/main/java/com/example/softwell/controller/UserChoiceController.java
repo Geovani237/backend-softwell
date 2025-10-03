@@ -27,16 +27,6 @@ public class UserChoiceController {
         return new ResponseEntity<>(newChoice, HttpStatus.CREATED);
     }
 
-//    @PostMapping
-//    public ResponseEntity<UserChoice> submitChoice(@RequestBody ChoiceRequestDTO choiceRequestDTO){
-//        UserChoice newChoice = userChoiceService.saveChoice(
-//                choiceRequestDTO.getUserId(),
-//                choiceRequestDTO.getSelectedOption()
-//        );
-//
-//        return new ResponseEntity<>(newChoice, HttpStatus.CREATED);
-//    }
-
     @GetMapping("/status/{userId}")
     public ResponseEntity<ChoiceStatusResponseDTO> getStatus(@PathVariable String userId){
         ChoiceStatusResponseDTO status = userChoiceService.getChoiceStatus(userId);
