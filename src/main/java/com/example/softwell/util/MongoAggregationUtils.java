@@ -56,4 +56,8 @@ public class MongoAggregationUtils {
             }
         };
     }
+
+    public static String convertStringToIntForAvg(String s) {
+        return s;
+    }
 }
