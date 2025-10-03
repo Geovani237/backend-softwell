@@ -1,10 +1,15 @@
 package com.example.softwell.controller;
 
 import com.example.softwell.model.Humor;
+import com.example.softwell.model.HumorRequestDTO;
+import com.example.softwell.model.HumorStatusResponseDTO;
 import com.example.softwell.model.UserHumorResponse;
 import com.example.softwell.repository.HumorRepository;
 import com.example.softwell.repository.UserHumorResponseRepository;
+import com.example.softwell.service.HumorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -13,6 +18,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class HumorController {
+
+    @Autowired
+    private HumorService service;
 
     @Autowired
     private HumorRepository humorRepository;
@@ -44,5 +52,25 @@ public class HumorController {
 
         // Não se preocupe, a sua lógica de salvar no repositório correto (userHumorResponseRepository) está PERFEITA!
         return userHumorResponseRepository.save(userResponse);
+    }
+
+    @PostMapping("/humores/userhumor")
+    public ResponseEntity<?> getUserHumorStatus(@RequestBody HumorRequestDTO humorRequestDTO) {
+        try {
+            UserHumorResponse response = service.saveUserHumorResponse(
+                humorRequestDTO.getUserId(),
+                humorRequestDTO.getEstadoDeHumor()
+            );
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (Exception ex){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+
+    }
+
+    @GetMapping("/humores/status/{userId}")
+    public ResponseEntity<HumorStatusResponseDTO> getStatus(@PathVariable String userId){
+        HumorStatusResponseDTO status = service.getHumorStatus(userId);
+        return ResponseEntity.ok(status);
     }
 }
