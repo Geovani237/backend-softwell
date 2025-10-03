@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class ActivityService {
+    // Cooldown de 30 dias em segundos (30 dias * 24 horas * 60 minutos * 60 segundos)
     private static final long COOLDOWN_SECONDS = 30 * 24 * 60 * 60;
-
 
     @Autowired
     private ActivityRepository activityRepository;
@@ -31,10 +31,8 @@ public class ActivityService {
     public Activity saveActivityFromDto(ActivityCreateDTO activityDto) {
         Activity activity = new Activity();
         activity.setActivity(activityDto.getActivity());
-
         activity.setId(null);
         activity.setDate(LocalDateTime.now());
-
         return activityRepository.save(activity);
     }
 
@@ -49,24 +47,13 @@ public class ActivityService {
     }
 
     public Activity updateActivity(Activity activity) {
-        Optional<Activity> OptinalActivity = activityRepository.findById(activity.getId());
+        Optional<Activity> optionalActivity = activityRepository.findById(activity.getId());
 
-        if (OptinalActivity.isPresent()){
+        if (optionalActivity.isPresent()){
             return activityRepository.save(activity);
         } else {
             throw new RuntimeException("Atividade não encontrada");
         }
-    }
-
-    public UserChoice registerUserVote(ActivityVoteDTO voteDto) {
-        UserChoice voteRecord = new UserChoice();
-
-        voteRecord.setActivityId(voteDto.getActivityId());
-
-        voteRecord.setUserId("DEFAULT"); // Implemente a autenticação real
-        voteRecord.setSelectedData(LocalDateTime.now());
-
-        return userChoiceRepository.save(voteRecord);
     }
 
     public List<ActivityVoteReportDTO> generateVoteReport() {
@@ -74,7 +61,6 @@ public class ActivityService {
 
         return activities.stream().map(activity -> {
             long voteCount = userChoiceRepository.countByActivityId(activity.getId());
-
             return new ActivityVoteReportDTO(
                     activity.getId(),
                     activity.getActivity(),
@@ -93,7 +79,14 @@ public class ActivityService {
         return 0; // Cooldown terminou
     }
 
-
+    /**
+     * Salva a escolha (voto) de um usuário, aplicando a regra de cooldown de 30 dias.
+     * Este método agora é a única fonte para registrar votos.
+     * @param userId O ID do usuário vindo do token de autenticação.
+     * @param activityId O ID da atividade que está sendo votada.
+     * @return A entidade UserChoice salva.
+     * @throws CooldownException se o usuário tentar votar antes do período de 30 dias.
+     */
     public UserChoice saveChoice(String userId, String activityId) {
         Optional<UserChoice> lastChoiceOption = userChoiceRepository.findTopByUserIdOrderBySelectedDataDesc(userId);
 
@@ -104,10 +97,8 @@ public class ActivityService {
             if (remainingSeconds > 0) {
                 long totalMinutes = remainingSeconds / 60;
                 long finalRemainingSeconds = remainingSeconds % 60;
-
                 long totalHours = totalMinutes / 60;
                 long finalRemainingMinutes = totalMinutes % 60;
-
                 long remainingDays = totalHours / 24;
                 long finalRemainingHours = totalHours % 24;
 
@@ -118,7 +109,7 @@ public class ActivityService {
         }
 
         UserChoice newChoice = new UserChoice();
-        newChoice.setUserId(userId);
+        newChoice.setUserId(userId); // Associa o voto ao usuário correto.
         newChoice.setActivityId(activityId);
         newChoice.setSelectedData(LocalDateTime.now());
 
@@ -136,10 +127,13 @@ public class ActivityService {
         long remainingSeconds = calculateRemainingSeconds(lastChoice.getSelectedData());
 
         if (remainingSeconds > 0) {
+            // Adiciona 1 para arredondar para cima (ex: 29.5 dias restantes se torna 30 dias)
             long remainingDays = (remainingSeconds / (24 * 60 * 60)) + 1;
             return new ChoiceStatusResponseDTO(false, remainingDays);
         }
 
         return new ChoiceStatusResponseDTO(true, 0);
     }
+
+    // O método registerUserVote(ActivityVoteDTO voteDto) foi removido pois estava incorreto e não é mais necessário.
 }
