@@ -42,8 +42,14 @@ public class SecurityConfig {
                         .requestMatchers("/api/humores/**").permitAll()
                         .requestMatchers("/act/**").permitAll()
 
-                        // ✅ REGRA CORRETA: Rota de análise SÓ PARA ADMIN
+                        // Rota de análise SÓ PARA ADMIN
                         .requestMatchers("/api/psychosocial/analysis/**").hasRole("ADMIN")
+
+                        .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
 
                         // Rotas que exigem apenas autenticação (qualquer usuário logado)
                         .anyRequest().authenticated()

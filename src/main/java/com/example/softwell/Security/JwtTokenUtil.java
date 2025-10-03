@@ -8,6 +8,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import com.example.softwell.model.User;
 
 import java.security.Key;
 import java.util.Date;
@@ -26,6 +27,9 @@ public class JwtTokenUtil {
         claims.put("roles", userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList()));
+
+        String userId = ((User) userDetails).getIdentifier();
+        claims.put("userId", userId);
 
         return Jwts.builder()
                 .setClaims(claims) // Agora o mapa contém as roles
