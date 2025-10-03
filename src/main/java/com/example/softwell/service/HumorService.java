@@ -30,7 +30,7 @@ public class HumorService {
         return 0;
     }
 
-    public UserHumorResponse saveUserHumorResponse(String userId, String estadoDeHumor){
+    public UserHumorResponse saveUserHumorResponse(String userId, String estadoDeHumor, String emoji) throws CooldownException {
         Optional<UserHumorResponse> lastChoiceOpt = userHumorResponseRepository.findTopByUserIdOrderByDataRespostaDesc(userId);
 
         if (lastChoiceOpt.isPresent()){
@@ -47,6 +47,7 @@ public class HumorService {
         newResponse.setUserId(userId);
         newResponse.setEstadoDeHumor(estadoDeHumor);
         newResponse.setDataResposta(LocalDateTime.now());
+        newResponse.setEmoji(emoji);
         // Aqui você pode definir o emoji com base no estadoDeHumor, se necessário.
         return userHumorResponseRepository.save(newResponse);
     }

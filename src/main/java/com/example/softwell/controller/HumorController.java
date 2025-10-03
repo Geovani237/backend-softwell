@@ -59,7 +59,8 @@ public class HumorController {
         try {
             UserHumorResponse response = service.saveUserHumorResponse(
                 humorRequestDTO.getUserId(),
-                humorRequestDTO.getEstadoDeHumor()
+                humorRequestDTO.getEstadoDeHumor(),
+                humorRequestDTO.getEmoji()
             );
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception ex){

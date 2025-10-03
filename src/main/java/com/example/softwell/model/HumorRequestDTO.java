@@ -6,4 +6,5 @@ import lombok.Data;
 public class HumorRequestDTO {
     private String userId;
     private String estadoDeHumor;
+    private String emoji;
 }
