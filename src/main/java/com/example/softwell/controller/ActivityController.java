@@ -63,6 +63,7 @@ public class ActivityController {
      * @param principal Injetado pelo Spring Security, contém os dados do usuário do token JWT.
      * @return Resposta de sucesso ou erro de cooldown.
      */
+    @Operation(summary = "Submete a escolha de atividade do usuário")
     @PostMapping("/choice")
     public ResponseEntity<?> registerUserChoice(@RequestBody ActivityVoteDTO voteDto, Principal principal) {
         try {
@@ -99,19 +100,19 @@ public class ActivityController {
         ChoiceStatusResponseDTO status = service.getChoiceStatus(userId);
         return ResponseEntity.ok(status);
     }
-    @Operation(summary = "Submete a escolha de atividade do usuário")
-    @PostMapping("/choice")
-    public ResponseEntity<?> submitChoice(@RequestBody ChoiceRequestDTO choiceRequestDTO){
-        try {
-            UserChoice newChoice = service.saveChoice(
-                    choiceRequestDTO.getUserId(),
-                    choiceRequestDTO.getActivityId()
-            );
-            return new ResponseEntity<>(newChoice, HttpStatus.CREATED);
-        } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-        }
-    }
+//    @Operation(summary = "Submete a escolha de atividade do usuário")
+//    @PostMapping("/choice")
+//    public ResponseEntity<?> submitChoice(@RequestBody ChoiceRequestDTO choiceRequestDTO){
+//        try {
+//            UserChoice newChoice = service.saveChoice(
+//                    choiceRequestDTO.getUserId(),
+//                    choiceRequestDTO.getActivityId()
+//            );
+//            return new ResponseEntity<>(newChoice, HttpStatus.CREATED);
+//        } catch (Exception ex) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+//        }
+//    }
 
     @Operation(summary = "Consulta o status da escolha do usuário")
     @GetMapping("/status/{userId}")
