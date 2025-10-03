@@ -5,6 +5,7 @@ import com.example.softwell.Security.JwtTokenUtil;
 import com.example.softwell.model.User;
 import com.example.softwell.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -60,6 +62,19 @@ public class AuthController {
     @GetMapping("/getAll")
     public ResponseEntity<?> getAll(){
         return ResponseEntity.ok(userRepository.findAll());
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/admin")
+    public ResponseEntity<?> adminEndpoint(Authentication authentication) {
+        String username = authentication.getName();
+        User user = (User) authentication.getPrincipal();// converter para User
+        String id = user.getId(); //extrair o id
+        List<String> roles = authentication.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .toList();
+
+        return ResponseEntity.ok("Acesso de "+roles+" para "+username+" com id "+id);
     }
 
     @DeleteMapping("/delete")

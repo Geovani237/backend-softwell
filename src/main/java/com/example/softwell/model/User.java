@@ -18,6 +18,7 @@ public class User implements UserDetails {
     @Id
     private String id;
 
+
     private String cpf;
     private String username;
     private String password;

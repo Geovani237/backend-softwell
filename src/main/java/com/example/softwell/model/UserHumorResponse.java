@@ -11,6 +11,7 @@ public class UserHumorResponse {
 
     @Id
     private String id;
+    private String userId;
     private String estadoDeHumor;
     private String emoji;
     private LocalDateTime dataResposta;
