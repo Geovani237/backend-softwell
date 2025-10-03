@@ -20,7 +20,6 @@ public class UserChoiceController {
     public ResponseEntity<UserChoice> submitChoice(@RequestBody ChoiceRequestDTO choiceRequestDTO){
         UserChoice newChoice = userChoiceService.saveChoice(
                 choiceRequestDTO.getUserId(),
-                // Use activityId em vez de selectedOption
                 choiceRequestDTO.getActivityId()
         );
 

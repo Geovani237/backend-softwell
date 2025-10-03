@@ -6,6 +6,5 @@ import java.util.List;
 
 public interface PsychoSocialRepository extends MongoRepository<PsychoSocialAnswer, String> {
 
-    // Método para buscar todas as respostas de um usuário específico
     List<PsychoSocialAnswer> findByUserId(String userId);
 }

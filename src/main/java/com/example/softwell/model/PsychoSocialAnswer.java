@@ -14,11 +14,9 @@ public class PsychoSocialAnswer {
     private String id;
     private String userId;
 
-    // ✅ CORREÇÃO: Campo renomeado para "createdAt" e anotado para ser preenchido automaticamente
     @CreatedDate
     private LocalDateTime createdAt;
 
-    // Submodelos que correspondem à estrutura do frontend
     private Workload workload;
     private WarningSigns warningSigns;
     private RelationshipClimate relationshipClimate;

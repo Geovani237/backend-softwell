@@ -21,14 +21,9 @@ public class ActivityController {
         return service.getAllActivity();
     }
 
-    /**
-     * CORRIGIDO: Recebe ActivityCreateDTO (apenas 'activity') para evitar erro 400.
-     * Mapeia para a entidade Activity no Service.
-     */
     @PostMapping("/activity")
     @ResponseStatus(HttpStatus.CREATED)
     public Activity save(@RequestBody ActivityCreateDTO activityDto){
-        // Chama o serviço com o DTO de entrada
         return service.saveActivityFromDto(activityDto);
     }
 
@@ -44,9 +39,6 @@ public class ActivityController {
         return service.updateActivity(activity);
     }
 
-    /**
-     * Endpoint para registrar o voto do usuário.
-     */
     @PostMapping("/vote")
     @ResponseStatus(HttpStatus.CREATED)
     public UserChoice registerVote(@RequestBody ActivityVoteDTO voteDto){
@@ -62,7 +54,6 @@ public class ActivityController {
         return service.generateVoteReport();
     }
 
-
     @PostMapping("/choice")
     public ResponseEntity<?> submitChoice(@RequestBody ChoiceRequestDTO choiceRequestDTO){
         try {
@@ -72,12 +63,9 @@ public class ActivityController {
             );
             return new ResponseEntity<>(newChoice, HttpStatus.CREATED);
         } catch (Exception ex) {
-            // Retorna 400 Bad Request com a mensagem de erro
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
         }
     }
-
-
 
     @GetMapping("/status/{userId}")
     public ResponseEntity<ChoiceStatusResponseDTO> getStatus(@PathVariable String userId){

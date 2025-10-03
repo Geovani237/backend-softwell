@@ -11,7 +11,6 @@ import org.springframework.data.mongodb.core.aggregation.AggregationExpression; 
 
 public class MongoAggregationUtils {
 
-    // 🚨 CORREÇÃO DO ERRO 'Map.of' - Usando HashMap e bloco estático
     private static final Map<String, Integer> RATING_MAP;
 
     static {
@@ -27,17 +26,9 @@ public class MongoAggregationUtils {
         RATING_MAP.put("Alta", 4);
         RATING_MAP.put("Sempre", 5);
         RATING_MAP.put("Muito Alta", 5);
-        // Note: Se o seu Java for 11+, você pode usar Map.copyOf(RATING_MAP) para torná-lo imutável,
-        // mas o HashMap simples funciona para a criação estática.
+
     }
 
-    /**
-     * Gera a expressão de agregação $switch para converter valores de String (do DTO) para Int.
-     *
-     * @param fieldPath O caminho do campo no MongoDB (ex: "$workload.workloadAssessment").
-     * @return Uma expressão de agregação que retorna o valor numérico (1 a 5).
-     */
-    // O tipo de retorno AggregationExpression é o mais robusto e está correto.
     public static AggregationExpression convertStringToInt(String fieldPath) {
 
         List<Document> branches = RATING_MAP.entrySet().stream()
@@ -45,7 +36,6 @@ public class MongoAggregationUtils {
                         .append("then", entry.getValue()))
                 .collect(Collectors.toList());
 
-        // Documento padrão para $switch
         Document switchDoc = new Document("$switch", new Document("branches", branches)
                 .append("default", 3));
 

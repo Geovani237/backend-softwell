@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Workload {
-    private String workloadAssessment; // Ex: "Muito Alta"
-    private String qualityOfLifeImpact; // Ex: "Sempre"
-    private String extraHours; // Ex: "Frequentemente"
+    private String workloadAssessment;
+    private String qualityOfLifeImpact;
+    private String extraHours;
 }

@@ -67,13 +67,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // ✅✅✅ 2. ADICIONE ESTE BEAN PARA REMOVER O PREFIXO "ROLE_" ✅✅✅
-    /**
-     * Este Bean remove o prefixo padrão "ROLE_" que o Spring Security espera.
-     * Ao retornar uma string vazia, a verificação hasRole("ADMIN") buscará
-     * pela permissão "ADMIN" exatamente como está no banco de dados,
-     * em vez de procurar por "ROLE_ADMIN".
-     */
     @Bean
     public GrantedAuthorityDefaults grantedAuthorityDefaults() {
         return new GrantedAuthorityDefaults(""); // O argumento é uma string vazia

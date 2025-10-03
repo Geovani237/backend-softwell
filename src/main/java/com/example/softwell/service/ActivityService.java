@@ -28,15 +28,10 @@ public class ActivityService {
         return activityRepository.findAll();
     }
 
-    /**
-     * NOVO MÉTODO DE SALVAMENTO: Recebe o DTO limpo para evitar o erro 400 e
-     * mapeia para a Entidade para salvar.
-     */
     public Activity saveActivityFromDto(ActivityCreateDTO activityDto) {
         Activity activity = new Activity();
         activity.setActivity(activityDto.getActivity());
 
-        // Garante a criação de um novo ID e preenche a data
         activity.setId(null);
         activity.setDate(LocalDateTime.now());
 
@@ -44,7 +39,6 @@ public class ActivityService {
     }
 
     public Activity saveActivity(Activity activity) {
-        // Método de fallback/CRUD simples, ainda precisa ser protegido
         activity.setId(null);
         activity.setDate(LocalDateTime.now());
         return activityRepository.save(activity);
@@ -64,24 +58,17 @@ public class ActivityService {
         }
     }
 
-    /**
-     * NOVO MÉTODO: Registra o voto do usuário na collection 'userChoice'.
-     */
     public UserChoice registerUserVote(ActivityVoteDTO voteDto) {
         UserChoice voteRecord = new UserChoice();
 
         voteRecord.setActivityId(voteDto.getActivityId());
 
-        // **LÓGICA DE USUÁRIO E DATA**
         voteRecord.setUserId("DEFAULT"); // Implemente a autenticação real
         voteRecord.setSelectedData(LocalDateTime.now());
 
         return userChoiceRepository.save(voteRecord);
     }
 
-    /**
-     * Gera o relatório de votação combinando Atividades e Contagem de Votos.
-     */
     public List<ActivityVoteReportDTO> generateVoteReport() {
         List<Activity> activities = activityRepository.findAll();
 
@@ -96,16 +83,10 @@ public class ActivityService {
         }).collect(Collectors.toList());
     }
 
-    ///
-
-
-    // Métodos Auxiliares para o Cálculo do Cooldown
     private long calculateRemainingSeconds(LocalDateTime lastChoiceData) {
-        // Data/Hora que o próximo voto é permitido (data do último voto + 30 dias em segundos)
         LocalDateTime nextAllowedTime = lastChoiceData.plusSeconds(COOLDOWN_SECONDS);
         LocalDateTime now = LocalDateTime.now();
 
-        // Se a data de permissão ainda não passou, calcula os SEGUNDOS restantes
         if (now.isBefore(nextAllowedTime)) {
             return ChronoUnit.SECONDS.between(now, nextAllowedTime);
         }
@@ -118,11 +99,9 @@ public class ActivityService {
 
         if (lastChoiceOption.isPresent()){
             UserChoice lastChoice = lastChoiceOption.get();
-            // CHAVE: Usar segundos para precisão
             long remainingSeconds = calculateRemainingSeconds(lastChoice.getSelectedData());
 
             if (remainingSeconds > 0) {
-                // Converte os segundos restantes para uma mensagem detalhada (Dias, Horas, Minutos e Segundos)
                 long totalMinutes = remainingSeconds / 60;
                 long finalRemainingSeconds = remainingSeconds % 60;
 
@@ -134,7 +113,7 @@ public class ActivityService {
 
                 String message = String.format("Você só pode fazer uma nova escolha daqui a %d dias, %d horas, %d minutos e %d segundos.",
                         remainingDays, finalRemainingHours, finalRemainingMinutes, finalRemainingSeconds);
-                throw new CooldownException(message); // Lança a exceção
+                throw new CooldownException(message);
             }
         }
 
@@ -154,11 +133,9 @@ public class ActivityService {
         }
 
         UserChoice lastChoice = lastChoiceOptional.get();
-        // CHAVE: Usar segundos
         long remainingSeconds = calculateRemainingSeconds(lastChoice.getSelectedData());
 
         if (remainingSeconds > 0) {
-            // Retorna os dias restantes (arredondado para cima) para o DTO de status
             long remainingDays = (remainingSeconds / (24 * 60 * 60)) + 1;
             return new ChoiceStatusResponseDTO(false, remainingDays);
         }

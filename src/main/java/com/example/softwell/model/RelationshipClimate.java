@@ -12,6 +12,6 @@ public class RelationshipClimate {
     private int coworkerRespect; // Sinto que sou tratado(a) com respeito
     private int teamRelationship; // Relacionar de forma saudável e colaborativa
     private int freedomSpeech; // Liberdade para expressar opiniões
-    private int welcomedPart; // Me sinto acolhido(a) a parte do time
+    private int welcomedPart; // Me sinto acolhido a parte do time
     private int cooperationSpirit; // Espírito de cooperação
 }

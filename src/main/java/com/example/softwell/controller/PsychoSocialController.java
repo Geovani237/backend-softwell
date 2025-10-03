@@ -41,14 +41,6 @@ public class PsychoSocialController {
         return ResponseEntity.ok(averages);
     }
 
-    // ✅✅✅ 3. ENDPOINT CRÍTICO QUE ESTAVA FALTANDO ✅✅✅
-    /**
-     * Endpoint para Administradores: Busca as médias consolidadas de todos os
-     * usuários para uma data específica.
-     *
-     * @param date A data no formato 'yyyy-MM-dd' vinda da URL.
-     * @return Um Map com as médias temáticas ou 204 No Content se não houver dados.
-     */
     @GetMapping("/analysis/by-date/{date}")
     public ResponseEntity<Map<String, Double>> getAveragesByDate(
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
@@ -56,11 +48,9 @@ public class PsychoSocialController {
         Map<String, Double> averages = service.calculateAveragesByDate(date);
 
         if (averages == null || averages.isEmpty()) {
-            // Retorna 204 No Content - É o comportamento esperado quando não há dados.
             return ResponseEntity.noContent().build();
         }
 
-        // Retorna 200 OK com o corpo contendo as médias.
         return ResponseEntity.ok(averages);
     }
 }

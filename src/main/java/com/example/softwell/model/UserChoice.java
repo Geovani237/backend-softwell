@@ -13,8 +13,7 @@ public class UserChoice {
     @Id
     private String id;
     private String userId;
-    // Mude de selectedOption (Nome) para activityId (ID)
     private String activityId;
-    private LocalDateTime selectedData; // A data do voto
+    private LocalDateTime selectedData;
 
 }

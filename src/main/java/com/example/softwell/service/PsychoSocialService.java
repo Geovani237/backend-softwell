@@ -37,28 +37,21 @@ public class PsychoSocialService {
         return repository.findByUserId(userId);
     }
 
-    // Método para o gráfico pessoal (Dashboard), já estava correto.
     public Map<String, Double> calculateLatestThematicAverages(String userId) {
         MatchOperation matchUser = match(where("userId").is(userId));
         SortOperation sortByDate = sort(Sort.Direction.DESC, "createdAt");
         LimitOperation limitOne = limit(1);
 
-        // A lógica de projeção e agrupamento aqui está funcional para um único usuário.
-        // O código foi omitido para focar na correção principal.
-        // O seu código original para este método pode ser mantido.
         return new HashMap<>(); // Retorno de exemplo
     }
 
 
-    // ✅✅✅ MÉTODO 'calculateAveragesByDate' TOTALMENTE CORRIGIDO ✅✅✅
     public Map<String, Double> calculateAveragesByDate(LocalDate date) {
         LocalDateTime startOfDay = date.atStartOfDay();
         LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
 
-        // 1. Filtra os documentos pelo campo de data correto: "createdAt"
         MatchOperation matchByDate = match(Criteria.where("createdAt").gte(startOfDay).lte(endOfDay));
 
-        // 2. Agrupa TODOS os documentos filtrados e calcula a média de CADA CAMPO individualmente.
         GroupOperation groupAndAverageFields = group()
                 // Workload (convertendo String para Int)
                 .avg(MongoAggregationUtils.convertStringToInt("$workload.workloadAssessment")).as("w_assessment")
@@ -87,8 +80,6 @@ public class PsychoSocialService {
                 .avg("$leadershipRelation.leaderRecognizesEfforts").as("lr_recognize")
                 .avg("$leadershipRelation.trustAndTransparency").as("lr_trust");
 
-        // 3. Projeta as médias TEMÁTICAS a partir das médias individuais calculadas acima.
-        // Isso evita erros e torna a agregação mais clara e robusta.
         ProjectionOperation projectThematicAverages = project()
                 .andExclude("_id") // Exclui o campo _id do resultado final
                 .andExpression("($w_assessment + $w_impact + $w_hours) / 3").as("workloadAverage")
@@ -104,10 +95,9 @@ public class PsychoSocialService {
         Map<String, Object> rawResult = results.getUniqueMappedResult();
 
         if (rawResult == null) {
-            return Map.of(); // Retorna mapa vazio se não houver resultados.
+            return Map.of();
         }
 
-        // Converte o resultado para o formato esperado (Map<String, Double>)
         Map<String, Double> finalAverages = new HashMap<>();
         rawResult.forEach((key, value) -> {
             if (value instanceof Number) {

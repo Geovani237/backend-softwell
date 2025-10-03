@@ -48,7 +48,6 @@ public class HumorService {
         newResponse.setEstadoDeHumor(estadoDeHumor);
         newResponse.setDataResposta(LocalDateTime.now());
         newResponse.setEmoji(emoji);
-        // Aqui você pode definir o emoji com base no estadoDeHumor, se necessário.
         return userHumorResponseRepository.save(newResponse);
     }
 

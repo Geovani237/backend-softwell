@@ -5,8 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor // Adicione isso para um construtor sem argumentos
-@AllArgsConstructor // Adicione isso para um construtor com todos os argumentos
+@NoArgsConstructor
+@AllArgsConstructor
 public class MoodOptionDTO {
     private String id;
     private String text;

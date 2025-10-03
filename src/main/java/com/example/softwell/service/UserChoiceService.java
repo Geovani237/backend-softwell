@@ -14,24 +14,19 @@ import java.util.Optional;
 @Service
 public class UserChoiceService {
 
-    // Constante para o período de cooldown: 30 dias em segundos.
-    // 30 dias * 24 horas * 60 minutos * 60 segundos = 2.592.000 segundos
     private static final long COOLDOWN_SECONDS = 30 * 24 * 60 * 60;
 
     @Autowired
     private UserChoiceRepository userChoiceRepository;
 
-    // Métodos Auxiliares para o Cálculo do Cooldown
     private long calculateRemainingSeconds(LocalDateTime lastChoiceData) {
-        // Data/Hora que o próximo voto é permitido (data do último voto + 30 dias em segundos)
         LocalDateTime nextAllowedTime = lastChoiceData.plusSeconds(COOLDOWN_SECONDS);
         LocalDateTime now = LocalDateTime.now();
 
-        // Se a data de permissão ainda não passou, calcula os SEGUNDOS restantes
         if (now.isBefore(nextAllowedTime)) {
             return ChronoUnit.SECONDS.between(now, nextAllowedTime);
         }
-        return 0; // Cooldown terminou
+        return 0;
     }
 
 
@@ -40,11 +35,9 @@ public class UserChoiceService {
 
         if (lastChoiceOption.isPresent()){
             UserChoice lastChoice = lastChoiceOption.get();
-            // CHAVE: Usar segundos para precisão
             long remainingSeconds = calculateRemainingSeconds(lastChoice.getSelectedData());
 
             if (remainingSeconds > 0) {
-                // Converte os segundos restantes para uma mensagem detalhada (Dias, Horas, Minutos e Segundos)
                 long totalMinutes = remainingSeconds / 60;
                 long finalRemainingSeconds = remainingSeconds % 60;
 
@@ -56,7 +49,7 @@ public class UserChoiceService {
 
                 String message = String.format("Você só pode fazer uma nova escolha daqui a %d dias, %d horas, %d minutos e %d segundos.",
                         remainingDays, finalRemainingHours, finalRemainingMinutes, finalRemainingSeconds);
-                throw new CooldownException(message); // Lança a exceção
+                throw new CooldownException(message);
             }
         }
 
@@ -76,11 +69,9 @@ public class UserChoiceService {
         }
 
         UserChoice lastChoice = lastChoiceOptional.get();
-        // CHAVE: Usar segundos
         long remainingSeconds = calculateRemainingSeconds(lastChoice.getSelectedData());
 
         if (remainingSeconds > 0) {
-            // Retorna os dias restantes (arredondado para cima) para o DTO de status
             long remainingDays = (remainingSeconds / (24 * 60 * 60)) + 1;
             return new ChoiceStatusResponseDTO(false, remainingDays);
         }

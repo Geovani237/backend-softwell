@@ -21,8 +21,6 @@ public class Activity {
     private String id;
     private String activity;
 
-    // CORREÇÃO CRUCIAL: Diz ao Jackson para não esperar este campo na entrada (POST).
-    // O servidor sempre o preencherá no ActivityService.
     @JsonProperty(access = Access.READ_ONLY)
     private LocalDateTime date;
 }

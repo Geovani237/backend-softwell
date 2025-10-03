@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-@NoArgsConstructor // Adicione isso para um construtor sem argumentos
-@AllArgsConstructor // Adicione isso para um construtor com todos os argumentos
+@NoArgsConstructor
+@AllArgsConstructor
 public class HumorDataDTO {
     private String questionText;
     private List<MoodOptionDTO> moodOptions;

@@ -32,26 +32,21 @@ public class HumorController {
     @Autowired
     private UserHumorResponseRepository userHumorResponseRepository;
 
-    // Caminho final: GET /api/humores
     @GetMapping
     public List<Humor> getAllHumor() {
         return humorRepository.findAll();
     }
 
-    // Caminho final: POST /api/humores/add
     @PostMapping("/add")
     public Humor addHumor(@RequestBody Humor newHumor) {
         return humorRepository.save(newHumor);
     }
 
-    // Caminho final: DELETE /api/humores/{id}
     @DeleteMapping("/{id}")
     public void deleteHumor(@PathVariable String id) {
         humorRepository.deleteById(id);
     }
 
-    // (Este endpoint parece ser uma versão antiga para salvar resposta. Pode ser removido se não for usado.)
-    // Caminho final: POST /api/humores/userresponse
     @PostMapping("/userresponse")
     public UserHumorResponse saveUserResponse(@RequestBody Humor humor) {
         UserHumorResponse userResponse = new UserHumorResponse();
@@ -61,7 +56,6 @@ public class HumorController {
         return userHumorResponseRepository.save(userResponse);
     }
 
-    // Caminho final: POST /api/humores/userhumor
     @PostMapping("/userhumor")
     public ResponseEntity<?> saveUserHumorChoice(@RequestBody HumorRequestDTO humorRequestDTO) {
         try {
@@ -76,15 +70,12 @@ public class HumorController {
         }
     }
 
-    // Caminho final: GET /api/humores/status/{userId}
     @GetMapping("/status/{userId}")
     public ResponseEntity<HumorStatusResponseDTO> getStatus(@PathVariable String userId){
         HumorStatusResponseDTO status = service.getHumorStatus(userId);
         return ResponseEntity.ok(status);
     }
 
-    // ✅ 2. O ENDPOINT DE HISTÓRICO AGORA FUNCIONA.
-    // Caminho final: GET /api/humores/history/by-date?date=YYYY-MM-DD
     @GetMapping("/history/by-date")
     public ResponseEntity<List<UserHumorResponse>> getHumorHistoryByDate(
             @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
@@ -94,8 +85,7 @@ public class HumorController {
 
         List<UserHumorResponse> responses = userHumorResponseRepository.findByDataRespostaBetween(startOfDay, endOfDay);
 
-        // Este LOG é crucial para depuração no console do seu backend.
-        System.out.println("[BACKEND LOG] Buscando humores para data: " + date + ". Encontrados: " + responses.size() + " registros.");
+//        System.out.println("[BACKEND LOG] Buscando humores para data: " + date + ". Encontrados: " + responses.size() + " registros.");
 
         return ResponseEntity.ok(responses);
     }

@@ -10,7 +10,5 @@ import java.util.Optional;
 public interface UserHumorResponseRepository extends MongoRepository<UserHumorResponse, String> {
     Optional<UserHumorResponse> findTopByUserIdOrderByDataRespostaDesc(String userId);
 
-    // ✅✅✅ NOVO MÉTODO ✅✅✅
-    // Encontra todas as respostas de humor que estão entre uma data/hora de início e fim.
     List<UserHumorResponse> findByDataRespostaBetween(LocalDateTime startOfDay, LocalDateTime endOfDay);
 }
