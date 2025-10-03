@@ -35,6 +35,10 @@ public class User implements UserDetails {
                 .collect(Collectors.toList());
     }
 
+    public String getIdentifier() {
+        return this.id;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
