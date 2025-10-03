@@ -1,4 +1,4 @@
-package com.example.softwell.model;
+package com.example.softwell.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ActivityVoteDTO {
+public class ActivityVoteReportDTO {
     private String activityId;
+    private String activityName;
+    private Long voteCount;
 }

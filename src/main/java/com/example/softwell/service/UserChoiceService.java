@@ -1,7 +1,7 @@
 package com.example.softwell.service;
 
 import com.example.softwell.exception.CooldownException;
-import com.example.softwell.model.ChoiceStatusResponseDTO;
+import com.example.softwell.dto.ChoiceStatusResponseDTO;
 import com.example.softwell.model.UserChoice;
 import com.example.softwell.repository.UserChoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;

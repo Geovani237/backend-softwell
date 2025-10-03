@@ -1,11 +1,11 @@
-package com.example.softwell.model;
+package com.example.softwell.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ChoiceStatusResponseDTO {
+public class HumorStatusResponseDTO {
     private boolean canMakeChoice;
     private long daysRemaining;
 }

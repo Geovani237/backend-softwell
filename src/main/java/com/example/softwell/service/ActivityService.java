@@ -1,5 +1,8 @@
 package com.example.softwell.service;
 
+import com.example.softwell.dto.ActivityCreateDTO;
+import com.example.softwell.dto.ActivityVoteReportDTO;
+import com.example.softwell.dto.ChoiceStatusResponseDTO;
 import com.example.softwell.exception.CooldownException;
 import com.example.softwell.model.*;
 import com.example.softwell.repository.ActivityRepository;

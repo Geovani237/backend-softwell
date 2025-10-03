@@ -1,5 +1,9 @@
 package com.example.softwell.controller;
 
+import com.example.softwell.dto.ActivityCreateDTO;
+import com.example.softwell.dto.ActivityVoteDTO;
+import com.example.softwell.dto.ActivityVoteReportDTO;
+import com.example.softwell.dto.ChoiceStatusResponseDTO;
 import com.example.softwell.exception.CooldownException;
 import com.example.softwell.model.*;
 import com.example.softwell.service.ActivityService;
@@ -8,9 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.core.Authentication;
 
 
 import java.security.Principal;

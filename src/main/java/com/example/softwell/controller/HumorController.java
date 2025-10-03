@@ -1,8 +1,8 @@
 package com.example.softwell.controller;
 
 import com.example.softwell.model.Humor;
-import com.example.softwell.model.HumorRequestDTO;
-import com.example.softwell.model.HumorStatusResponseDTO;
+import com.example.softwell.dto.HumorRequestDTO;
+import com.example.softwell.dto.HumorStatusResponseDTO;
 import com.example.softwell.model.UserHumorResponse;
 import com.example.softwell.repository.HumorRepository;
 import com.example.softwell.repository.UserHumorResponseRepository;

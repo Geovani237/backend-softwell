@@ -1,4 +1,4 @@
-package com.example.softwell.model;
+package com.example.softwell.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

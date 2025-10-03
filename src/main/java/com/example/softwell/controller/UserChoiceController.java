@@ -1,7 +1,7 @@
 package com.example.softwell.controller;
 
-import com.example.softwell.model.ChoiceRequestDTO;
-import com.example.softwell.model.ChoiceStatusResponseDTO;
+import com.example.softwell.dto.ChoiceRequestDTO;
+import com.example.softwell.dto.ChoiceStatusResponseDTO;
 import com.example.softwell.model.UserChoice;
 import com.example.softwell.service.UserChoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
