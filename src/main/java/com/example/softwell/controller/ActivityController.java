@@ -52,44 +52,23 @@ public class ActivityController {
         return service.updateActivity(activity);
     }
 
-//    @Operation(summary = "Registra um voto do usuário em uma atividade")
-//    @PostMapping("/vote")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public UserChoice registerVote(@RequestBody ActivityVoteDTO voteDto){
-//        return service.registerUserVote(voteDto);
-//    }
-    /**
-     * Endpoint unificado para registrar o voto de um usuário autenticado.
-     * O app deve chamar este endpoint.
-     * @param voteDto Contém o ID da atividade votada.
-     * @param principal Injetado pelo Spring Security, contém os dados do usuário do token JWT.
-     * @return Resposta de sucesso ou erro de cooldown.
-     */
     @Operation(summary = "Submete a escolha de atividade do usuário")
     @PostMapping("/choice")
     public ResponseEntity<?> registerUserChoice(@RequestBody ActivityVoteDTO voteDto, Principal principal) {
         try {
-            // Extrai o nome de usuário (que você usa como ID) do token autenticado.
             String userId = principal.getName();
 
-            // Chama o serviço com o ID do usuário real, ativando a lógica de cooldown correta.
             UserChoice newChoice = service.saveChoice(userId, voteDto.getActivityId());
 
-            // Retorna uma resposta de sucesso. O DTO de retorno é o mesmo da requisição.
             return ResponseEntity.status(HttpStatus.CREATED).body(voteDto);
 
         } catch (CooldownException e) {
-            // Se a exceção de cooldown for lançada, retorna um erro 400 (Bad Request) com a mensagem.
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
-            // Tratamento para outros erros inesperados.
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocorreu um erro interno: " + e.getMessage());
         }
     }
 
-    /**
-     * Endpoint para o Admin visualizar a contagem de votos.
-     */
     @Operation(summary = "Relatório de votos das atividades (admin)")
     @GetMapping("/report")
     public List<ActivityVoteReportDTO> getVoteReport() {
@@ -102,19 +81,6 @@ public class ActivityController {
         ChoiceStatusResponseDTO status = service.getChoiceStatus(userId);
         return ResponseEntity.ok(status);
     }
-//    @Operation(summary = "Submete a escolha de atividade do usuário")
-//    @PostMapping("/choice")
-//    public ResponseEntity<?> submitChoice(@RequestBody ChoiceRequestDTO choiceRequestDTO){
-//        try {
-//            UserChoice newChoice = service.saveChoice(
-//                    choiceRequestDTO.getUserId(),
-//                    choiceRequestDTO.getActivityId()
-//            );
-//            return new ResponseEntity<>(newChoice, HttpStatus.CREATED);
-//        } catch (Exception ex) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-//        }
-//    }
 
     @Operation(summary = "Consulta o status da escolha do usuário")
     @GetMapping("/status/{userId}")
