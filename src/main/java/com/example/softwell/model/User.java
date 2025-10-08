@@ -4,25 +4,39 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Document(collection = "usuarios")
 public class User implements UserDetails {
 
     @Id
+    private String id;
+
+
     private String cpf;
     private String username;
     private String password;
 
+    private List<String> roles;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Por enquanto, vamos retornar uma coleção vazia
-        // Você pode implementar roles de usuários aqui
-        return Collections.emptyList();
+        if (this.roles == null) {
+            return List.of();
+        }
+        return this.roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
+    public String getIdentifier() {
+        return this.id;
     }
 
     @Override
@@ -44,6 +58,4 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-
 }
